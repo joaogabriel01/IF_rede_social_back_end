@@ -23,6 +23,6 @@ Novas funcionalidades do projeto.
 ### Fix
 Correções em funcionalidades existentes.
 ### Chore
-Configuração ou adição do projeto.
+Configuração ou adição de pacotes do projeto.
 ### Refactor
 Refatorações que não interferem no funcionamento da aplicação.
