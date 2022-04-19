@@ -1,4 +1,10 @@
 Python 3.10
 python -m pip install flask
+python -m pip install python-dotenv
 python -m pip install flask-mysql
 python -m flask run
+
+
+--Isso é só para você
+lembre se de entrar no seu virtualenv
+source ProjectSE02/script/activate

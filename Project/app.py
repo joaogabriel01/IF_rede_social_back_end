@@ -1,6 +1,6 @@
 from flask import Flask, render_template
-from Project.routes.routeIndex import routes
-from Project.ext.database import Connection
+from .routes.route_index import routes
+from .ext.database import Connection
 
 
 app = Flask(__name__)
