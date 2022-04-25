@@ -9,22 +9,16 @@ from .controllers.user_controller import UserController
 app = Flask(__name__)
 
 
-
-routes.init_app(app)
 db = Connection.createConnection(app)
+routes.init_app(app,db)
+
 
 @app.route('/')
 def index():
-    # cursor.execute("SELECT * from usuarios")
-    # data=cursor.fetchone()
-    # print(data)
     return render_template('login.html')
 
 @app.route('/register')
 def register():
-    # cursor.execute("SELECT * from usuarios")
-    # data=cursor.fetchone()
-    # print(data)
     return render_template('register.html')
 
 

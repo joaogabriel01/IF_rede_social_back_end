@@ -52,6 +52,17 @@
     width: 275px;
     height: 45px;
     margin: 32.5px 0px 7.5px 0px;
+    
+}
+
+.button{
+    background-color: #042940;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    width: 275px;
+    height: 45px;
+    margin: 32.5px 0px 7.5px 0px;
 }
 
 .login-button {
