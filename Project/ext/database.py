@@ -14,5 +14,5 @@ class Connection:
         app.config['MYSQL_DATABASE_HOST'] = os.getenv('MYSQL_DATABASE_HOST')
         mysql.init_app(app)
         conn = mysql.connect()
-        cursor = conn.cursor()
-        return cursor
+        # cursor = conn.cursor()
+        return conn

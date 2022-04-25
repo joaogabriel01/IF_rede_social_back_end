@@ -1,11 +1,17 @@
+from flask import Flask, render_template,request,redirect,session, flash
+from ..ext.database import Connection
+from ..controllers.user_controller import UserController
+
+
 class routes:
 
     def init_app(app):
 
-        @app.route('/teste')
-        def teste():
-            return 'RotaTeste'
+        db = Connection.createConnection(app)
 
-        @app.route('/teste2')
-        def teste2():
-            return 'RotaTeste2'
+        @app.route('/createUser')
+        def createUser():
+            # print(request.form)
+            # user_controller = UserController()
+            # user_controller.saveUser(db,request.form)
+            return render_template('login.html')
