@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row form-title">
             <div class="col">
-                <img src="../static//images/intro-logo.svg" alt="social-logo">
+                <img src="../static/images/intro-logo.svg" alt="social-logo">
                 <h1>Cadastrar-se</h1>
                 <p>Conecte-se com um universo de pessoas buscando ajudar o próximo! Preencha os dados abaixo para continuar.</p>
             </div>
@@ -12,7 +12,7 @@
             <div class="col">
                 <form action="/createUser" method="post">
                     <div class="col-md input-text">
-                        <input name="surname" type="text" placeholder="Apelido">
+                        <input name="nickname" type="text" placeholder="Apelido">
                     </div>
                     <div class="col-md input-text">
                         <input name="email" type="email" placeholder="E-mail">
@@ -24,14 +24,14 @@
                         <input name="password-confirm" type="password" placeholder="Confirmar senha">
                     </div>
                     <div class="col-md input-button">
-                        <input type="button" value="Cadastrar-se">
+                        <input type="submit" value="Cadastrar-se">
                     </div>
                 </form>
             </div>
         </div>
         <div class="row form-login">
             <div class="col">
-                <p>Já sou cadastrado, <a class="flat-button" href="{{url_for('login')}}">entrar</a></p>
+                <p>Já sou cadastrado, <a class="flat-button" href="{{url_for('user_register')}}">entrar</a></p>
             </div>
         </div>
     </div>

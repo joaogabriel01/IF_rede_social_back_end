@@ -1,0 +1,9 @@
+CREATE TABLE login_logs (
+ id_login_log INT PRIMARY KEY AUTO_INCREMENT,
+ id_usuario INT NOT NULL,
+ created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+ updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+ deleted_at DATETIME NOT NULL
+);
+
+ALTER TABLE login_logs ADD FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario)
