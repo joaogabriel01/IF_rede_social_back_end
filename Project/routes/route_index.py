@@ -12,4 +12,4 @@ class routes:
             user = request.form
             user_controller = UserController(db)
             user_controller.saveUser(user)
-            return render_template('login.html')
+            return render_template('intro/login_form.html')

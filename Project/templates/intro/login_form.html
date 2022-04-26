@@ -1,0 +1,37 @@
+{% extends "intro/intro_template.html" %}
+{% block form %}
+    <div class="container">
+        <div class="row align-self-end">
+            <div class="col back-button">
+                <a href="{{url_for('register')}}"><img src="../static//images/buttons/back-button.svg" alt="back-button" title="Voltar à tela de registro"></a>
+            </div>
+        </div>
+        <div class="row form-title">
+            <div class="col">
+                <img src="../static//images/intro-logo.svg" alt="social-logo">
+                <h1>Entrar</h1>
+                <p>Bem-vindo de volta! Utilize suas credências para acessar sua conta.</p>
+            </div>
+        </div>
+        <div class="row justify-content-md-center form-content">
+            <div class="col">
+                <form action="">
+                    <div class="col-md input-text">
+                        <input name="email" type="email" placeholder="Email">
+                    </div>
+                    <div class="col-md input-text">
+                        <input name="password" type="password" placeholder="Senha">
+                    </div>
+                    <div class="col-md input-button">
+                        <input type="button" value="Entrar">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row form-login">
+            <!-- <div class="col">
+                <p>Esqueci minha senha, <a class="flat-button" href="{{url_for('password_reset')}}">redefinir acesso</a></p>
+            </div> -->
+        </div>
+    </div>
+{% endblock %}
