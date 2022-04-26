@@ -1,10 +1,6 @@
 from flask import Flask, render_template
 from .routes.route_index import routes
 from .ext.database import Connection
-from .daos.user_dao import UserDao
-from .models.user_model import User
-from .controllers.user_controller import UserController
-
 
 app = Flask(__name__)
 
