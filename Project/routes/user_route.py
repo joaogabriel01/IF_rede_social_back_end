@@ -5,9 +5,25 @@ class routes:
 
     def init_app(app,db):
 
-        @app.route('/createUser',methods=['POST'])
+        user_controller = UserController(db)
+            
+        @app.route('/user/create',methods=['POST'])
         def createUser():
-            user = request.json
-            user_controller = UserController(db)
-            response = user_controller.saveUser(user)
+            dataPost = request.json
+            response = user_controller.saveUser(dataPost)
             return response
+
+        @app.route('/user/sendEmailToResetPassword',methods=['POST'])
+        def sendEmail():
+            dataPost = request.json
+            response = user_controller.sendEmailToResetPassword(dataPost['email'])
+            return response
+
+        @app.route('/user/resetPassword',methods=['POST'])
+        def resetPassword():
+            dataPost = request.json
+            response = user_controller.resetPassword(dataPost)
+            return response
+
+
+
