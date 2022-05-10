@@ -1,7 +1,5 @@
-from flask import Flask, render_template,request,redirect,session, flash
-
+from flask import Flask, request, redirect, session, flash
 from ..controllers.user_controller import UserController
-
 
 class routes:
 
@@ -9,7 +7,7 @@ class routes:
 
         @app.route('/createUser',methods=['POST'])
         def createUser():
-            user = request.form
+            user = request.json
             user_controller = UserController(db)
-            user_controller.saveUser(user)
-            return redirect('user/login')
+            response = user_controller.saveUser(user)
+            return response
