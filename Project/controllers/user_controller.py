@@ -42,6 +42,8 @@ class UserController:
         return {"response": "Usuário criado com sucesso"}
 
     def sendEmailToResetPassword(self, email):
+        if( self.checkEmail(email) is None):
+            return {"response": "Email não existe"}
         body_teste = "<p>Oi estou apenas testando uma coisa<p>"
         subject_teste = "teste"
         SendEmail.send_email(body_teste, subject_teste, email)
