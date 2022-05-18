@@ -9,5 +9,7 @@ MYSQL_DATABASE_PASSWORD=
 MYSQL_DATABASE_DB=network
 MYSQL_PORT=3306
 
+CRYPTOGRAPHY_HASH=your code that will encrypt
+
 EMAIL=email that will be the sender
 PASSWORD_EMAIL=your email password

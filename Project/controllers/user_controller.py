@@ -3,7 +3,11 @@ from ..models.user_model import User
 from ..ext.send_email import SendEmail
 import json
 import uuid
+import cryptocode
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class UserController:
 
@@ -29,6 +33,7 @@ class UserController:
             return True
         return False
 
+    
     def saveUser(self, userPost):
         if( not (self.checkEmail(userPost['email']) is None)):
             return {"response": "Email já existente"}
@@ -37,9 +42,13 @@ class UserController:
         if( not (self.confirmPassword(userPost['password'],userPost['password-confirm']))):
             return {"response": "Senhas não correspondem"}
         id = uuid.uuid4()
-        user = User(userPost['nickname'],userPost['email'],userPost['password'], id)
+        encryptedPassword = cryptocode.encrypt(userPost['password'],os.getenv("CRYPTOGRAPHY_HASH"))
+        user = User(nickname=userPost['nickname'],mail=userPost['email'],password=encryptedPassword, id=id)
         self.__userDao.save(user)
         return {"response": "Usuário criado com sucesso"}
+
+    def loginUser(self, userPost):
+        return 1
 
     def sendEmailToResetPassword(self, email):
         if( self.checkEmail(email) is None):
@@ -50,8 +59,9 @@ class UserController:
         return {"response": "Email para resetar a senha enviado"}
 
     def resetPassword(self, data):
-        self.__userDao.updatePassword(data['uuid_user'], data['password'])
+        encryptedPassword = cryptocode.encrypt(data['password'],os.getenv("CRYPTOGRAPHY_HASH"))
+        self.__userDao.updatePassword(data['uuid_user'], encryptedPassword)
         dataUser = self.__userDao.findByUuid(data['uuid_user'])
-        user = User(dataUser[1],dataUser[2],dataUser[3],dataUser[0])
+        user = User(nickname=dataUser[1],mail=dataUser[2],password=encryptedPassword,id=dataUser[0])
         response = json.dumps(user.__dict__)
         return response
