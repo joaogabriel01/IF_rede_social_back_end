@@ -12,6 +12,12 @@ class routes:
             dataPost = request.json
             response = user_controller.saveUser(dataPost)
             return response
+        
+        @app.route('/user/login',methods=['POST'])
+        def loginUser():
+            dataPost = request.json
+            response = user_controller.loginUser(dataPost)
+            return response
 
         @app.route('/user/sendEmailToResetPassword',methods=['POST'])
         def sendEmail():

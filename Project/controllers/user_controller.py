@@ -3,7 +3,7 @@ from ..models.user_model import User
 from ..ext.send_email import SendEmail
 import json
 import uuid
-import cryptocode
+import bcrypt
 import os
 from dotenv import load_dotenv
 
@@ -42,13 +42,20 @@ class UserController:
         if( not (self.confirmPassword(userPost['password'],userPost['password-confirm']))):
             return {"response": "Senhas não correspondem"}
         id = uuid.uuid4()
-        encryptedPassword = cryptocode.encrypt(userPost['password'],os.getenv("CRYPTOGRAPHY_HASH"))
+        encryptedPassword = bcrypt.hashpw((userPost['password']).encode('utf-8'),bcrypt.gensalt())
+        print(bcrypt.gensalt())
         user = User(nickname=userPost['nickname'],mail=userPost['email'],password=encryptedPassword, id=id)
         self.__userDao.save(user)
         return {"response": "Usuário criado com sucesso"}
 
     def loginUser(self, userPost):
-        return 1
+        uuidUser = self.__userDao.findByNickname(userPost['nickname'])
+        if(uuidUser is not None):
+            passwordHash = self.__userDao.findByUuid(uuidUser)[3].encode('utf-8')
+            if(bcrypt.checkpw(userPost['password'].encode('utf-8'),passwordHash)):
+                return {"response": "Usuário autenticado"}
+
+        return {"response": "Usuário não autenticado"}
 
     def sendEmailToResetPassword(self, email):
         if( self.checkEmail(email) is None):
