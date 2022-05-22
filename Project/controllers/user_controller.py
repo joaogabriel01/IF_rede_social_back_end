@@ -42,7 +42,7 @@ class UserController:
             return jsonify({"response": "Email já existente"}), 409
         if(self.checkNickname(userPost['nickname'])):
             return jsonify({"response": "Usuário já existente"}), 409
-        if(self.confirmPassword(userPost['password'],userPost['password-confirm'])):
+        if(not self.confirmPassword(userPost['password'],userPost['password-confirm'])):
             return jsonify({"response": "Senhas não correspondem"}), 409
         id = uuid.uuid4()
         encryptedPassword = bcrypt.hashpw((userPost['password']).encode('utf-8'),bcrypt.gensalt())
@@ -74,10 +74,7 @@ class UserController:
         SendEmail.send_email(body_teste, subject_teste, email)
         return jsonify({"response": "Email para resetar a senha enviado"}), 200
 
-    def resetPassword(self, data):
-        encryptedPassword = cryptocode.encrypt(data['password'],os.getenv("CRYPTOGRAPHY_HASH"))
-        self.__userDao.updatePassword(data['uuid_user'], encryptedPassword)
-        dataUser = self.__userDao.findByUuid(data['uuid_user'])
-        user = User(nickname=dataUser[1],mail=dataUser[2],password=encryptedPassword,id=dataUser[0])
-        response = json.dumps(user.__dict__)
-        return response
+    def resetPassword(self, userPost):
+        encryptedPassword = bcrypt.hashpw((userPost['password']).encode('utf-8'),bcrypt.gensalt())
+        self.__userDao.updatePassword(userPost['uuid_user'], encryptedPassword)
+        return jsonify({"response":"Senha alterada com sucesso"}), 200
