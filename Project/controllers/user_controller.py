@@ -38,11 +38,11 @@ class UserController:
 
     
     def saveUser(self, userPost):
-        if( not (self.checkEmail(userPost['email']) is None)):
+        if(self.checkEmail(userPost['email'])):
             return jsonify({"response": "Email já existente"}), 409
-        if( not (self.checkNickname(userPost['nickname']) is None)):
+        if(self.checkNickname(userPost['nickname'])):
             return jsonify({"response": "Usuário já existente"}), 409
-        if( not (self.confirmPassword(userPost['password'],userPost['password-confirm']))):
+        if(self.confirmPassword(userPost['password'],userPost['password-confirm'])):
             return jsonify({"response": "Senhas não correspondem"}), 409
         id = uuid.uuid4()
         encryptedPassword = bcrypt.hashpw((userPost['password']).encode('utf-8'),bcrypt.gensalt())
@@ -53,19 +53,18 @@ class UserController:
 
     def loginUser(self, userPost):
         uuidUser = self.__userDao.findByNickname(userPost['nickname'])
-        if(uuidUser is not None):
-            passwordHash = self.__userDao.findByUuid(uuidUser)[3].encode('utf-8')
+        if(uuidUser is None):
+            return jsonify({"response": "Usuário não autenticado"}), 401
+        passwordHash = self.__userDao.findByUuid(uuidUser)[3].encode('utf-8')
 
-            payload = {
-                "id": uuidUser,
-                "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
-            }
+        payload = {
+            "id": uuidUser,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
+        }
 
-            token = jwt.encode(payload, os.getenv('CRYPTOGRAPHY_HASH'))
-            if(bcrypt.checkpw(userPost['password'].encode('utf-8'),passwordHash)):
-                return jsonify({"response": "Usuário autenticado","token": token}), 202
-
-        return jsonify({"response": "Usuário não autenticado"}), 401
+        token = jwt.encode(payload, os.getenv('CRYPTOGRAPHY_HASH'))
+        if(bcrypt.checkpw(userPost['password'].encode('utf-8'),passwordHash)):
+            return jsonify({"response": "Usuário autenticado","token": token}), 202
 
     def sendEmailToResetPassword(self, email):
         if( self.checkEmail(email) is None):
