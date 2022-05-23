@@ -1,5 +1,6 @@
 from ..daos.publication_dao import PublicationDao
 from ..models.publication_model import Publication
+from flask import jsonify
 
 class PublicationController:
 
@@ -11,4 +12,5 @@ class PublicationController:
         publication = Publication(publicationPost['idUser'],publicationPost['text'],publicationPost['images'])
         self.__publicationDao.save(publication)
         
-        return {"response":"Publicação criada com sucesso"}
+        return jsonify({"response":"Publicação criada com sucesso"}),201
+

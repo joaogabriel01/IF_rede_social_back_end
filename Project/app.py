@@ -1,6 +1,6 @@
 from flask import Flask, render_template
-from .routes.user_route import routes as routesUser
-from .routes.public_route import routes as routesPublications
+from .routes.user_route import Routes as routesUser
+from .routes.public_route import Routes as routesPublications
 from .ext.database import Connection
 
 app = Flask(__name__)

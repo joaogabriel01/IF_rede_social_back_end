@@ -3,6 +3,6 @@ python -m pip install flask
 python -m pip install python-dotenv
 python -m pip install flask-mysql
 python -m pip install bcrypt
-python -m flask run
 python -m pip install jwt
 python -m pip install PyJWT
+python -m flask run

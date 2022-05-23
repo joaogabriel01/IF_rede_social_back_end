@@ -2,7 +2,7 @@ from flask import Flask, request, redirect, session, flash, jsonify
 from ..controllers.user_controller import UserController
 from ..ext.authentication import jwt_required
 
-class routes:
+class Routes:
 
     def init_app(app,db):
 
