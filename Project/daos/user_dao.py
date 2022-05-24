@@ -1,5 +1,5 @@
 SQL_CREATE_USER = 'insert into users(uuid_user,name,password,email) values (%s,%s, %s, %s)'
-SQL_FIND_BY_ID = 'select uuid_user,name, email, password from users where uuid_user = %s'
+SQL_FIND_BY_ID = 'select uuid_user,name, email, password from users where id_user = %s'
 SQL_FIND_BY_UUID = 'select uuid_user,name, email, password from users where uuid_user = %s'
 SQL_FIND_BY_EMAIL = 'select uuid_user from users where email = %s'
 SQL_FIND_BY_NICKNAME = 'select uuid_user from users where name = %s'
