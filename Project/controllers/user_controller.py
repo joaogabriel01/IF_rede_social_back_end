@@ -65,20 +65,18 @@ class UserController:
     def loginUser(self, userPost):
         try:
             uuidUser = self.__userDao.findByNickname(userPost['nickname'])
-            if(uuidUser is None):
-                return jsonify({"response": "Usuário não autenticado"}), 401
-        
-        
-            passwordHash = self.__userDao.findByUuid(uuidUser)[3].encode('utf-8')
+            if(uuidUser is not None):
+                passwordHash = self.__userDao.findByUuid(uuidUser)[3].encode('utf-8')
 
-            payload = {
-                "id": uuidUser,
-                "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
-            }
+                payload = {
+                    "id": uuidUser,
+                    "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
+                }
 
-            token = jwt.encode(payload, os.getenv('CRYPTOGRAPHY_HASH'))
-            if(bcrypt.checkpw(userPost['password'].encode('utf-8'),passwordHash)):
-                return jsonify({"response": "Usuário autenticado","token": token}), 202
+                token = jwt.encode(payload, os.getenv('CRYPTOGRAPHY_HASH'))
+                if(bcrypt.checkpw(userPost['password'].encode('utf-8'),passwordHash)):
+                    return jsonify({"response": "Usuário autenticado","token": token}), 202
+            return jsonify({"response": "Usuário não autenticado"}), 401
         except:
             return jsonify({"response":"Houve um problema em sua requsição"}), 400
 
