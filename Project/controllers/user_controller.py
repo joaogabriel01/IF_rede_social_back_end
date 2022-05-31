@@ -2,7 +2,6 @@ from ..daos.user_dao import UserDao
 from ..models.user_model import User
 from ..ext.send_email import SendEmail
 import json
-import uuid
 import bcrypt
 import os
 from dotenv import load_dotenv
@@ -37,12 +36,6 @@ class UserController:
         if(password == passwordConfirm):
             return True
 
-    def checkUiid(self, uuid):
-        data = self.__userDao.findByUuid
-        if(data is None):
-            return True
-        return False
-
     
     def saveUser(self, userPost):
         try:
@@ -53,10 +46,10 @@ class UserController:
             if(not self.confirmPassword(userPost['password'],userPost['password-confirm'])):
                 return jsonify({"response": "Senhas não correspondem"}), 409
         
-            id = uuid.uuid4()
+            
             encryptedPassword = bcrypt.hashpw((userPost['password']).encode('utf-8'),bcrypt.gensalt())
             print(bcrypt.gensalt())
-            user = User(nickname=userPost['nickname'],mail=userPost['email'],password=encryptedPassword, id=id)
+            user = User(nickname=userPost['nickname'],mail=userPost['email'],password=encryptedPassword)
             self.__userDao.save(user)
             return jsonify({"response": "Usuário criado com sucesso"}), 201
         except:
@@ -64,12 +57,12 @@ class UserController:
 
     def loginUser(self, userPost):
         try:
-            uuidUser = self.__userDao.findByNickname(userPost['nickname'])
-            if(uuidUser is not None):
-                passwordHash = self.__userDao.findByUuid(uuidUser)[3].encode('utf-8')
+            idUser = self.__userDao.findByNickname(userPost['nickname'])
+            if(idUser is not None):
+                passwordHash = self.__userDao.findById(idUser)[3].encode('utf-8')
 
                 payload = {
-                    "id": uuidUser,
+                    "id": idUser,
                     "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
                 }
 
@@ -94,7 +87,7 @@ class UserController:
     def resetPassword(self, userPost):
         try:
             encryptedPassword = bcrypt.hashpw((userPost['password']).encode('utf-8'),bcrypt.gensalt())
-            self.__userDao.updatePassword(userPost['uuid_user'], encryptedPassword)
+            self.__userDao.updatePassword(userPost['id_user'], encryptedPassword)
             return jsonify({"response":"Senha alterada com sucesso"}), 200
         except:
             return jsonify({"response":"Houve um problema em sua requsição"}), 400

@@ -1,6 +1,6 @@
-SQL_CREATE_PUBLICATION = 'insert into publications(id_user,description) values (%s,%s)'
+SQL_CREATE_PUBLICATION = 'insert into publications(id_user, description) values (%s, %s)'
 SQL_CREATE_IMAGE = 'insert into images(url) values (%s)'
-SQL_LINK_IMAGE_PUBLICATION = 'insert into publication_images(id_publication,id_image) values (%s,%s)'
+SQL_LINK_IMAGE_PUBLICATION = 'insert into publication_images(id_publication, id_image) values (%s, %s)'
 SQL_FIND_BY_ID = 'select id_publication, id_user description from publications where id_publication = (%s)'
 
 

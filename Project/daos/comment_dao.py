@@ -1,7 +1,5 @@
 SQL_CREATE_COMMENT = 'insert into comments(id_user,id_publication,content) values (%s,%s,%s)'
 
-
-
 class CommentDao:
 
     def __init__(self,db):

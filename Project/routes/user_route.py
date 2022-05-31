@@ -17,6 +17,7 @@ class Routes:
         @app.route('/user/testAuthenticated', methods=['GET'])
         @jwt_required
         def testAuthenticated(**kwargs):
+            print(kwargs)
             return jsonify(1)
         
         @app.route('/user/login', methods=['POST'])

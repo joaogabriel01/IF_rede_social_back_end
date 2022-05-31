@@ -1,6 +1,5 @@
 CREATE TABLE `users` (
   `id_user` int PRIMARY KEY AUTO_INCREMENT,
-  `uuid_user` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(60) NOT NULL,
@@ -43,13 +42,24 @@ CREATE TABLE `images` (
 
 CREATE TABLE `user_profile_images` (
   `id_user` int,
-  `id_image` int
+  `id_image` int,
+  `status` int
 );
 
 CREATE TABLE `publication_images` (
   `id_publication` int,
   `id_image` int
 );
+
+CREATE TABLE `groups` (
+  `id_group` int PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL
+)
+
+CREATE TABLE `users_groups` (
+  `id_user` int,
+  `id_group` int
+)
 
 CREATE TABLE `sessions` (
   `id_session` int PRIMARY KEY AUTO_INCREMENT,
