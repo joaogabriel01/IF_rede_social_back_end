@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, session, flash, jsonify
 from ..controllers.user_controller import UserController
 from ..ext.authentication import jwt_required
+from ..dtos.user.create_dto import Create
 
 class Routes:
 
@@ -11,7 +12,13 @@ class Routes:
         @app.route('/user/create', methods=['POST'])
         def createUser():
             dataPost = request.json
-            response = user_controller.saveUser(dataPost)
+            try:
+                createDto = Create(nickname=dataPost['nickname'], mail=dataPost['mail'], password=dataPost['password'], confirmPassword=dataPost['confirmPassword'])
+                print(createDto.getMail())
+            except ValueError:
+                print(ValueError)
+                return jsonify({"response":"Faltando dados de requisição"}), 400
+            response = user_controller.saveUser(createDto);
             return response
         
         @app.route('/user/testAuthenticated', methods=['GET'])

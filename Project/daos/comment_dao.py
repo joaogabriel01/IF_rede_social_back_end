@@ -11,6 +11,7 @@ class CommentDao:
         cursor.execute(SQL_CREATE_COMMENT, (comment.getIdUser(), comment.getIdPublication(), comment.getContent()))
         cursor._idPost = cursor.lastrowid
         self.__db.commit()
+        cursor.close()
         return 1
     
 

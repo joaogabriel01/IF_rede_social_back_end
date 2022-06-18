@@ -37,19 +37,18 @@ class UserController:
             return True
 
     
-    def saveUser(self, userPost):
+    def saveUser(self, user):
         try:
-            if(self.checkEmail(userPost['email'])):
+            if(self.checkEmail(user.getMail())):
                 return jsonify({"response": "Email já existente"}), 409
-            if(self.checkNickname(userPost['nickname'])):
+            if(self.checkNickname(user.getNickname())):
                 return jsonify({"response": "Usuário já existente"}), 409
-            if(not self.confirmPassword(userPost['password'],userPost['password-confirm'])):
+            if(not self.confirmPassword(user.getPassword(),user.getConfirmPassword())):
                 return jsonify({"response": "Senhas não correspondem"}), 409
         
             
-            encryptedPassword = bcrypt.hashpw((userPost['password']).encode('utf-8'),bcrypt.gensalt())
-            print(bcrypt.gensalt())
-            user = User(nickname=userPost['nickname'],mail=userPost['email'],password=encryptedPassword)
+            encryptedPassword = bcrypt.hashpw((user.getPassword()).encode('utf-8'),bcrypt.gensalt())
+            user.setPassword(encryptedPassword)
             self.__userDao.save(user)
             return jsonify({"response": "Usuário criado com sucesso"}), 201
         except:

@@ -11,4 +11,5 @@ class GroupDao:
         cursor.execute(SQL_CREATE_GROUP, (group.getName()))
         cursor._idGroup = cursor.lastrowid
         self.__db.commit()
+        cursor.close()
         return 1

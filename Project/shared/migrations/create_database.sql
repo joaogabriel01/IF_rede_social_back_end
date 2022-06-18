@@ -54,12 +54,12 @@ CREATE TABLE `publication_images` (
 CREATE TABLE `groups` (
   `id_group` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) NOT NULL
-)
+);
 
 CREATE TABLE `users_groups` (
   `id_user` int,
   `id_group` int
-)
+);
 
 CREATE TABLE `sessions` (
   `id_session` int PRIMARY KEY AUTO_INCREMENT,

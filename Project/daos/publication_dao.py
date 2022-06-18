@@ -13,6 +13,8 @@ class PublicationDao:
         cursor = self.__db.cursor()
         cursor.execute(SQL_FIND_BY_ID, (idPublication,))
         data = cursor.fetchone()
+        self.__db.commit()
+        cursor.close()
         return data
 
 
@@ -26,6 +28,7 @@ class PublicationDao:
                 cursor._idImage = cursor.lastrowid
                 cursor.execute(SQL_LINK_IMAGE_PUBLICATION, (cursor._idPost, cursor._idImage))
         self.__db.commit()
+        cursor.close()
         return 1
     
 

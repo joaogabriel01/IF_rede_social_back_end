@@ -13,12 +13,17 @@ class UserDao:
         cursor = self.__db.cursor()
         cursor.execute(SQL_FIND_BY_EMAIL, (email,))
         data = cursor.fetchone()
+        self.__db.commit()
+        cursor.close()
+        print("data2: ", data)
         return data
 
     def findByNickname(self, nickname):
         cursor = self.__db.cursor()
         cursor.execute(SQL_FIND_BY_NICKNAME, (nickname,))
         data = cursor.fetchone()
+        self.__db.commit()
+        cursor.close()
         return data
 
 
@@ -26,6 +31,8 @@ class UserDao:
         cursor = self.__db.cursor()
         cursor.execute(SQL_FIND_BY_ID, (idUser,))
         data = cursor.fetchone()
+        self.__db.commit()
+        cursor.close()
         return data
 
     def save(self,user):
@@ -33,11 +40,13 @@ class UserDao:
         cursor.execute(SQL_CREATE_USER, (user.getNickname(),user.getPassword(),user.getMail()))
         cursor._id = cursor.lastrowid
         self.__db.commit()
+        cursor.close()
         return cursor._id 
     
     def updatePassword(self,idUser,newPassword):
         cursor = self.__db.cursor()
         cursor.execute(SQL_UPDATE_PASSWORD,(newPassword,idUser))
         self.__db.commit()
+        cursor.close()
         return idUser
 
