@@ -1,7 +1,10 @@
 from flask import Flask, request, redirect, session, flash, jsonify
 from ..controllers.user_controller import UserController
 from ..ext.authentication import jwt_required
-from ..dtos.user.create_dto import Create
+from ..dtos.user.create_dto import CreateDto
+from ..dtos.user.login_dto import LoginDto
+from ..dtos.user.send_email_dto import SendEmailDto
+from ..dtos.user.reset_password_dto import ResetPasswordDto
 
 class Routes:
 
@@ -13,8 +16,7 @@ class Routes:
         def createUser():
             dataPost = request.json
             try:
-                createDto = Create(nickname=dataPost['nickname'], mail=dataPost['mail'], password=dataPost['password'], confirmPassword=dataPost['confirmPassword'])
-                print(createDto.getMail())
+                createDto = CreateDto(nickname=dataPost['nickname'], mail=dataPost['email'], password=dataPost['password'], confirmPassword=dataPost['confirmPassword'])
             except ValueError:
                 print(ValueError)
                 return jsonify({"response":"Faltando dados de requisição"}), 400
@@ -30,19 +32,31 @@ class Routes:
         @app.route('/user/login', methods=['POST'])
         def loginUser():
             dataPost = request.json
-            response = user_controller.loginUser(dataPost)
+            try:
+                loginDto = LoginDto(nickname=dataPost['nickname'], password=dataPost['password'])
+            except ValueError:
+                return jsonify({"response":"Faltando dados de requisição"}), 400
+            response = user_controller.loginUser(loginDto)
             return response
 
         @app.route('/user/sendEmailToResetPassword', methods=['POST'])
         def sendEmail():
             dataPost = request.json
-            response = user_controller.sendEmailToResetPassword(dataPost['email'])
+            try:
+                sendEmailDto = SendEmailDto(dataPost['email'])
+            except ValueError:
+                return jsonify({"response":"Faltando dados de requisição"}), 400
+            response = user_controller.sendEmailToResetPassword(sendEmailDto)
             return response
 
         @app.route('/user/resetPassword', methods=['POST'])
         def resetPassword():
             dataPost = request.json
-            response = user_controller.resetPassword(dataPost)
+            try:
+                resetPasswordDto = ResetPasswordDto(dataPost['id_user'], dataPost['password'])
+            except ValueError:
+                return jsonify({"response":"Faltando dados de requisição"})
+            response = user_controller.resetPassword(resetPasswordDto)
             return response
 
 

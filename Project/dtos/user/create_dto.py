@@ -1,4 +1,4 @@
-class Create:
+class CreateDto:
     def __init__(self,nickname="",mail="",password="", confirmPassword=""):
         self.__nickname = nickname
         self.__mail = mail

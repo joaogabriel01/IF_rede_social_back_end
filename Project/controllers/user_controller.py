@@ -54,39 +54,39 @@ class UserController:
         except:
             return jsonify({"response":"Houve um problema em sua requsição"}), 400
 
-    def loginUser(self, userPost):
+    def loginUser(self, user):
         try:
-            idUser = self.__userDao.findByNickname(userPost['nickname'])
+            idUser = self.__userDao.findByNickname(user.getNickname())
             if(idUser is not None):
                 passwordHash = self.__userDao.findById(idUser)[3].encode('utf-8')
 
                 payload = {
                     "id": idUser,
-                    "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
+                    "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
                 }
 
                 token = jwt.encode(payload, os.getenv('CRYPTOGRAPHY_HASH'))
-                if(bcrypt.checkpw(userPost['password'].encode('utf-8'),passwordHash)):
+                if(bcrypt.checkpw(user.getPassword().encode('utf-8'),passwordHash)):
                     return jsonify({"response": "Usuário autenticado","token": token}), 202
             return jsonify({"response": "Usuário não autenticado"}), 401
         except:
             return jsonify({"response":"Houve um problema em sua requsição"}), 400
 
-    def sendEmailToResetPassword(self, email):
+    def sendEmailToResetPassword(self, user):
         try:
-            if( self.checkEmail(email) is None):
+            if( self.checkEmail(user.getMail()) is None):
                 return jsonify({"response": "Email não existe"}), 404
             body_teste = "<p>Oi estou apenas testando uma coisa<p>"
             subject_teste = "teste"
-            SendEmail.send_email(body_teste, subject_teste, email)
+            SendEmail.send_email(body_teste, subject_teste, user.getMail())
             return jsonify({"response": "Email para resetar a senha enviado"}), 200
         except:
             return jsonify({"response":"Houve um problema em sua requsição"}), 400
 
-    def resetPassword(self, userPost):
+    def resetPassword(self, user):
         try:
-            encryptedPassword = bcrypt.hashpw((userPost['password']).encode('utf-8'),bcrypt.gensalt())
-            self.__userDao.updatePassword(userPost['id_user'], encryptedPassword)
+            encryptedPassword = bcrypt.hashpw((user.getNewPassword()).encode('utf-8'),bcrypt.gensalt())
+            self.__userDao.updatePassword(user.getId(), encryptedPassword)
             return jsonify({"response":"Senha alterada com sucesso"}), 200
         except:
             return jsonify({"response":"Houve um problema em sua requsição"}), 400
