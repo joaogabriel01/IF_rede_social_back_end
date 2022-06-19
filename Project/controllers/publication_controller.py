@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 from ..daos.publication_dao import PublicationDao
 from ..models.publication_model import Publication
 from ..controllers.user_controller import UserController
@@ -19,14 +20,14 @@ class PublicationController:
             return False
         return True
 
-    def savePublication(self,publicationPost):
+    def savePublication(self, publication):
         try:
-            if(not(self.__userController.checkId(publicationPost['idUser']))):
+            if(not(self.__userController.checkId(publication.getIdUser()))):
                 return jsonify({"response":"Usuário não encontrado"}), 404
         
-            publication = Publication(publicationPost['idUser'],publicationPost['text'],publicationPost['images'])
             self.__publicationDao.save(publication)
             return jsonify({"response":"Publicação criada com sucesso"}),201
 
-        except:
+        except ValueError:
+            print(ValueError)
             return jsonify({"response":"Houve um problema interno"}), 400

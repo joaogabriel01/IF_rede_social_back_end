@@ -1,4 +1,6 @@
-from flask import Flask, request, redirect, session, flash
+from flask import Flask, jsonify, request, redirect, session, flash
+
+from ..dtos.publication.create_dto import CreateDto
 from ..controllers.publication_controller import PublicationController
 from ..controllers.comment_controller import CommentController
 
@@ -12,7 +14,15 @@ class Routes:
         @app.route('/publication/create', methods=['POST'])
         def createPublication():
             dataPost = request.json
-            response = publication_controller.savePublication(dataPost)
+
+            try:
+                if ('images' not in dataPost):
+                    dataPost['images'] = ''
+                createDto = CreateDto(idUser=dataPost['idUser'],text=dataPost['text'],images=dataPost['images'])
+            except ValueError:
+                print(ValueError)
+                return jsonify({"response": "Faltando dados de requisição"})
+            response = publication_controller.savePublication(createDto)
             return response
 
         @app.route('/publication/createComment', methods=['POST'])
