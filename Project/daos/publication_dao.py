@@ -3,6 +3,8 @@ SQL_CREATE_IMAGE = 'insert into images(url) values (%s)'
 SQL_LINK_IMAGE_PUBLICATION = 'insert into publication_images(id_publication, id_image) values (%s, %s)'
 SQL_FIND_BY_ID = 'select id_publication, id_user description from publications where id_publication = (%s)'
 
+SQL_CREATE_COMMENT = 'insert into comments(id_user,id_publication,content) values (%s,%s,%s)'
+
 
 class PublicationDao:
 
@@ -30,5 +32,14 @@ class PublicationDao:
         self.__db.commit()
         cursor.close()
         return 1
+
+    def saveComment(self,comment):
+        cursor = self.__db.cursor()
+        cursor.execute(SQL_CREATE_COMMENT, (comment.getIdUser(), comment.getIdPublication(), comment.getText()))
+        cursor._idPost = cursor.lastrowid
+        self.__db.commit()
+        cursor.close()
+        return 1
+    
     
 
