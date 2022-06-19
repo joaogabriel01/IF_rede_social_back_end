@@ -12,11 +12,8 @@ class GroupController:
         self.__userController = UserController(self.__db)
         
 
-    def save(self, groupPost):
- 
-            group = Group(name=groupPost['groupname'])
-            self.__groupDao.save(group)
-            
-            return jsonify({"response":"Grupo criado com sucesso"}), 201
+    def save(self, group):
+        self.__groupDao.save(group)  
+        return jsonify({"response":"Grupo criado com sucesso"}), 201
 
 

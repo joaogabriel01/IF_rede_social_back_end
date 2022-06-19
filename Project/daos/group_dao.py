@@ -1,5 +1,4 @@
 SQL_CREATE_GROUP = 'insert into groups_network(name) values (%s)'
-SQL_CREATE_PUBLICATION = 'insert into publications(id_user, description) values (%s, %s)'
 
 class GroupDao:
 

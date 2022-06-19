@@ -51,7 +51,7 @@ CREATE TABLE `publication_images` (
   `id_image` int
 );
 
-CREATE TABLE `groups` (
+CREATE TABLE `groups_network` (
   `id_group` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) NOT NULL
 );

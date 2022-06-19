@@ -28,8 +28,7 @@ class PublicationController:
             self.__publicationDao.save(publication)
             return jsonify({"response":"Publicação criada com sucesso"}),201
 
-        except ValueError:
-            print(ValueError)
+        except:
             return jsonify({"response":"Houve um problema interno"}), 400
     
     def saveComment(self,comment):
@@ -40,6 +39,5 @@ class PublicationController:
                 return jsonify({"response":"Publcação não encontrada"}), 404
             self.__publicationDao.saveComment(comment)
             return jsonify({"response":"Comentário criado com sucesso"}), 201
-        except ValueError:
-            print(ValueError)
+        except:
             return jsonify({"response":"Houve um problema interno"}), 400

@@ -17,8 +17,7 @@ class Routes:
             dataPost = request.json
             try:
                 createDto = CreateDto(nickname=dataPost['nickname'], mail=dataPost['email'], password=dataPost['password'], confirmPassword=dataPost['confirmPassword'])
-            except ValueError:
-                print(ValueError)
+            except:
                 return jsonify({"response":"Faltando dados de requisição"}), 400
             response = user_controller.saveUser(createDto);
             return response
@@ -44,7 +43,7 @@ class Routes:
             dataPost = request.json
             try:
                 sendEmailDto = SendEmailDto(dataPost['email'])
-            except ValueError:
+            except:
                 return jsonify({"response":"Faltando dados de requisição"}), 400
             response = user_controller.sendEmailToResetPassword(sendEmailDto)
             return response
@@ -54,8 +53,8 @@ class Routes:
             dataPost = request.json
             try:
                 resetPasswordDto = ResetPasswordDto(dataPost['id_user'], dataPost['password'])
-            except ValueError:
-                return jsonify({"response":"Faltando dados de requisição"})
+            except:
+                return jsonify({"response":"Faltando dados de requisição"}), 400
             response = user_controller.resetPassword(resetPasswordDto)
             return response
 
