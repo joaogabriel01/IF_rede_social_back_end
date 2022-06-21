@@ -16,7 +16,7 @@ class Routes:
             try:
                 if ('images' not in dataPost):
                     dataPost['images'] = ''
-                createDto = CreateDto(idUser=dataPost['idUser'], idGroup=dataPost['idGroup'], text=dataPost['text'], images=dataPost['images'])
+                createDto = CreateDto(nickname=dataPost['nickname'], groupName=dataPost['group-name'], text=dataPost['text'], images=dataPost['images'])
             except:
                 return jsonify({"response": "Faltando dados de requisição"}), 400
             response = publication_controller.savePublication(createDto)

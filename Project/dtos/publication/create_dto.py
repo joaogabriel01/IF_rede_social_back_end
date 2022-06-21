@@ -1,9 +1,15 @@
 class CreateDto:
-    def __init__(self,idUser,idGroup,text,images):
-        self.__idUser = idUser
-        self.__idGroup = idGroup
+    def __init__(self,nickname,groupName,text,images,idUser=0,idGroup=0):
+        self.__nickname = nickname
+        self.__groupName = groupName
         self.__text = text
         self.__images = images
+
+    def getNickname(self):
+        return self.__nickname
+    
+    def getGroupName(self):
+        return self.__groupName
 
     def getIdUser(self):
         return self.__idUser
@@ -16,6 +22,12 @@ class CreateDto:
 
     def getImages(self):
         return self.__images
+
+    def setNickname(self,nickname):
+        self.__nickname = nickname
+
+    def setGroupName(self,groupName):
+        self.__groupName = groupName        
     
     def setIdUser(self,idUser):
         self.__idUser = idUser

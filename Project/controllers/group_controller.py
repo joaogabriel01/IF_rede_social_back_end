@@ -11,6 +11,9 @@ class GroupController:
         self.__groupDao = GroupDao(self.__db)
         self.__userController = UserController(self.__db)
         
+    def checkName(self,name):
+        data = self.__groupDao.findByName(name)
+        return data
 
     def save(self, group):
         self.__groupDao.save(group)  

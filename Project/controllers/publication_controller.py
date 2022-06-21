@@ -1,7 +1,7 @@
 from multiprocessing.sharedctypes import Value
 from ..daos.publication_dao import PublicationDao
-from ..models.publication_model import Publication
 from ..controllers.user_controller import UserController
+from ..controllers.group_controller import GroupController
 
 from flask import jsonify
 
@@ -11,6 +11,7 @@ class PublicationController:
         self.__db = db
         self.__publicationDao = PublicationDao(self.__db)
         self.__userController = UserController(self.__db)
+        self.__groupController = GroupController(self.__db)
         
         
 
@@ -22,9 +23,14 @@ class PublicationController:
 
     def savePublication(self, publication):
         try:
-            if(not(self.__userController.checkId(publication.getIdUser()))):
+            idUser = self.__userController.checkNickname(publication.getNickname())
+            idGroup = self.__groupController.checkName(publication.getGroupName())
+            if(not(idUser)):
                 return jsonify({"response":"Usuário não encontrado"}), 404
-        
+            if(not(idGroup)):
+                return jsonify({"response":"Grupo não encontrado"}), 404
+            publication.setIdUser(idUser)
+            publication.setIdGroup(idGroup)
             self.__publicationDao.save(publication)
             return jsonify({"response":"Publicação criada com sucesso"}),201
 
