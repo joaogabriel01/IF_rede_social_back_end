@@ -10,7 +10,8 @@ CREATE TABLE `users` (
 
 CREATE TABLE `publications` (
   `id_publication` int PRIMARY KEY AUTO_INCREMENT,
-  `id_user` int NOT NULL,
+  `id_user` int NOT NULL, 
+  `id_group` int NOT NULL,
   `description` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT (now()),
   `updated_at` datetime NOT NULL DEFAULT (now()),
