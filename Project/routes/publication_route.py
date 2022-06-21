@@ -26,7 +26,7 @@ class Routes:
         def createComment():
             dataPost =  request.json
             try:
-                createCommentDto = CreateCommentDto(idUser=dataPost['idUser'], idPublication=dataPost['idPublication'], text=dataPost['text'])
+                createCommentDto = CreateCommentDto(nickname=dataPost['nickname'], idPublication=dataPost['idPublication'], text=dataPost['text'])
             except:
                 return jsonify({"response":"Faltando dados de requisição"}), 400
             response = publication_controller.saveComment(createCommentDto)

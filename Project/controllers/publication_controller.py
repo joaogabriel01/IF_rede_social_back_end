@@ -39,10 +39,12 @@ class PublicationController:
     
     def saveComment(self,comment):
         try:
-            if(not(self.__userController.checkId(comment.getIdUser()))):
+            idUser = self.__userController.checkNickname(comment.getNickname())
+            if(not(idUser)):
                 return jsonify({"response":"Usuário não encontrado"}), 404
             if(not(self.checkId(comment.getIdPublication()))):
                 return jsonify({"response":"Publcação não encontrada"}), 404
+            comment.setIdUser(idUser)
             self.__publicationDao.saveComment(comment)
             return jsonify({"response":"Comentário criado com sucesso"}), 201
         except:
