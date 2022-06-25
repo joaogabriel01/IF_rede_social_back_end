@@ -1,5 +1,6 @@
 SQL_CREATE_GROUP = 'insert into groups_network(name) values (%s)'
 SQL_FIND_BY_NAME = 'select id_group from groups_network where name like %s'
+SQL_INSERT_USER = 'insert into users_groups (id_user, id_group) values (%s,%s)'
 
 class GroupDao:
 
@@ -13,6 +14,13 @@ class GroupDao:
         self.__db.commit()
         cursor.close()
         return data
+
+    def saveUser(self, groupUser):
+        cursor = self.__db.cursor()
+        cursor.execute(SQL_INSERT_USER, (groupUser.getIdUser(), groupUser.getId()))
+        self.__db.commit()
+        cursor.close()
+        return 1
 
     def save(self, group):
         cursor = self.__db.cursor()
