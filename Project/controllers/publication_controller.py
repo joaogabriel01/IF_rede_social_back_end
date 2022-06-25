@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 from ..daos.publication_dao import PublicationDao
 from ..controllers.user_controller import UserController
 from ..controllers.group_controller import GroupController

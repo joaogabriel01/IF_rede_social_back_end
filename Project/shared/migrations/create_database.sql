@@ -28,6 +28,16 @@ CREATE TABLE `comments` (
   `deleted_at` datetime
 );
 
+CREATE TABLE `tags` (
+  `id_tag` int PRIMARY KEY AUTO_INCREMENT,
+  `text` varchar(30) NOT NULL
+);
+
+CREATE TABLE publications_tags (
+  `id_publication` int,
+  `id_tag` int
+);
+
 CREATE TABLE `likes` (
   `id_user` int,
   `id_publication` int

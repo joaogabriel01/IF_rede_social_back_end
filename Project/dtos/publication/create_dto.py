@@ -1,9 +1,10 @@
 class CreateDto:
-    def __init__(self,groupName,text,images,idUser=0,idGroup=0):
+    def __init__(self,groupName,text,images,tags,idUser=0,idGroup=0):
         self.__idUser = idUser
         self.__groupName = groupName
         self.__text = text
         self.__images = images
+        self.__tags = tags
     
     def getGroupName(self):
         return self.__groupName
@@ -20,6 +21,9 @@ class CreateDto:
     def getImages(self):
         return self.__images
 
+    def getTags(self):
+        return self.__tags
+
     def setGroupName(self,groupName):
         self.__groupName = groupName        
     
@@ -34,5 +38,8 @@ class CreateDto:
     
     def setImages(self, images):
         self.__images = images
+
+    def setTags(self, tags):
+        self.__tags = tags
 
    
