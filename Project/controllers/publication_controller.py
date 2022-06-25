@@ -23,28 +23,20 @@ class PublicationController:
 
     def savePublication(self, publication):
         try:
-            idUser = self.__userController.checkNickname(publication.getNickname())
             idGroup = self.__groupController.checkName(publication.getGroupName())
-            if(not(idUser)):
-                return jsonify({"response":"Usuário não encontrado"}), 404
             if(not(idGroup)):
                 return jsonify({"response":"Grupo não encontrado"}), 404
-            publication.setIdUser(idUser)
             publication.setIdGroup(idGroup)
             self.__publicationDao.save(publication)
             return jsonify({"response":"Publicação criada com sucesso"}),201
 
-        except:
+        except ValueError:
             return jsonify({"response":"Houve um problema interno"}), 400
     
     def saveComment(self,comment):
         try:
-            idUser = self.__userController.checkNickname(comment.getNickname())
-            if(not(idUser)):
-                return jsonify({"response":"Usuário não encontrado"}), 404
             if(not(self.checkId(comment.getIdPublication()))):
                 return jsonify({"response":"Publcação não encontrada"}), 404
-            comment.setIdUser(idUser)
             self.__publicationDao.saveComment(comment)
             return jsonify({"response":"Comentário criado com sucesso"}), 201
         except:
