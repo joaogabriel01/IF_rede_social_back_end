@@ -40,3 +40,10 @@ class PublicationController:
             return jsonify({"response":"Comentário criado com sucesso"}), 201
         except:
             return jsonify({"response":"Houve um problema interno"}), 400
+
+    def likePublication(self, publication):
+        try:
+            self.__publicationDao.likePubication(publication)
+            return jsonify({"response":"Sucesso ao dar like"}), 200
+        except ValueError:
+            return jsonify({"response":"Houve um problema interno"}), 400

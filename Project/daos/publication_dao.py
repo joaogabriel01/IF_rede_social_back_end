@@ -5,6 +5,7 @@ SQL_FIND_BY_ID = 'select id_publication, id_user description from publications w
 SQL_CREATE_TAG = 'insert into tags(text) values (%s)'
 SQL_LINK_TAG_PUBLICATION = 'insert into publications_tags(id_publication, id_tag) values (%s,%s)'
 SQL_CREATE_COMMENT = 'insert into comments(id_user,id_publication,content) values (%s,%s,%s)'
+SQL_LIKE_PUBLICATION = 'insert into likes (id_user, id_publication) values (%s,%s)'
 
 
 class PublicationDao:
@@ -46,6 +47,8 @@ class PublicationDao:
         cursor = self.__db.cursor()
         cursor.execute(SQL_CREATE_COMMENT, (comment.getIdUser(), comment.getIdPublication(), comment.getText()))
         cursor._idPost = cursor.lastrowid
+        self.__db.commit()
+        cursor.close()
         return True
 
     def insertImagePublication(self,cursor, id_image):
@@ -66,6 +69,12 @@ class PublicationDao:
         cursor.execute(SQL_LINK_TAG_PUBLICATION, (cursor._idPublic, id_tag))
         return True
 
+    def likePubication(self, publication):
+        cursor = self.__db.cursor()
+        cursor.execute(SQL_LIKE_PUBLICATION, (publication.getIdUser(), publication.getIdPublication()))
+        self.__db.commit()
+        cursor.close()
+        return True
     
     
 

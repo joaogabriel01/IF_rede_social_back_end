@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, redirect, session, flash
 
+from Project.dtos.publication.like_dto import LikePublicationDto
 from ..dtos.publication.create_dto import CreateDto
 from ..dtos.publication.create_comment_dto import CreateCommentDto
 from ..controllers.publication_controller import PublicationController
@@ -37,4 +38,16 @@ class Routes:
             except:
                 return jsonify({"response":"Faltando dados de requisição"}), 400
             response = publication_controller.saveComment(createCommentDto)
+            return response
+
+        @app.route('/publication/like', methods=['POST'])
+        @jwt_required
+        def likePublication(**kwargs):
+            dataPost =  request.json
+            idUser = kwargs['current_user_id']
+            try:
+                likeDto = LikePublicationDto(idUser=idUser, idPublication=dataPost['idPublication'])
+            except:
+                return jsonify({"response":"Faltando dados de requisição"}), 400
+            response = publication_controller.likePublication(likeDto)
             return response
