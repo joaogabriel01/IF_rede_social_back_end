@@ -99,9 +99,24 @@ ALTER TABLE `publication_images` ADD FOREIGN KEY (`id_image`) REFERENCES `images
 
 ALTER TABLE `sessions` ADD FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
-create view searchPublications as
-select p.id_publication,gn.id_group,gn.name as group_name,p.created_at as date, p.content,count(l.id_publication) as likes  from publications p 
-inner join groups_network gn on gn.id_group = p.id_group 
-inner join publications_tags pt on pt.id_publication = p.id_publication 
-left join likes l on l.id_publication = p.id_publication 
-group by p.id_publication,gn.name, p.created_at, p.content,l.id_publication 
+
+create view search_publications as
+select
+    `p`.`id_publication` as `id_publication`,
+    `gn`.`id_group` as `id_group`,
+    `gn`.`name` as `group_name`,
+    `p`.`created_at` as `date`,
+    `p`.`content` as `content`,
+    (select count(id_publication) from likes where `p`.`id_publication`=likes.id_publication) as 'likes'
+from
+    (((`network`.`publications` `p`
+join `network`.`groups_network` `gn` on
+    (`gn`.`id_group` = `p`.`id_group`))
+join `network`.`publications_tags` `pt` on
+    (`pt`.`id_publication` = `p`.`id_publication`)))
+group by
+    `p`.`id_publication`,
+    `gn`.`id_group`,
+    `gn`.`name`,
+    `p`.`created_at`,
+    `p`.`content`;
