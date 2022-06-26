@@ -72,7 +72,7 @@ class UserController:
                 if(bcrypt.checkpw(user.getPassword().encode('utf-8'),passwordHash)):
                     return jsonify({"response": "Usuário autenticado","token": token}), 202
             return jsonify({"response": "Usuário não autenticado"}), 401
-        except:
+        except ValueError:
             return jsonify({"response":"Houve um problema em sua requsição"}), 400
 
     def sendEmailToResetPassword(self, user):
