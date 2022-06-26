@@ -6,7 +6,8 @@ SQL_CREATE_TAG = 'insert into tags(text) values (%s)'
 SQL_LINK_TAG_PUBLICATION = 'insert into publications_tags(id_publication, id_tag) values (%s,%s)'
 SQL_CREATE_COMMENT = 'insert into comments(id_user,id_publication,content) values (%s,%s,%s)'
 SQL_LIKE_PUBLICATION = 'insert into likes (id_user, id_publication) values (%s,%s)'
-
+SQL_GET_PUBLICATIONS = 'select s.id_publication,s.group_name,s.date,s.content,s.likes from searchpublications s inner join groups_network gn on gn.id_group = s.id_group inner join users_groups ug on ug.id_group = gn.id_group where ug.id_user = %s'
+SQL_GET_TAGS_PUBLICATIONS = 'select t.text from tags t inner join publications_tags pt on pt.id_tag = t.id_tag where pt.id_publication = %s'
 
 class PublicationDao:
 
@@ -75,6 +76,22 @@ class PublicationDao:
         self.__db.commit()
         cursor.close()
         return True
+
+    def getPublications(self, idUser):
+        cursor = self.__db.cursor()
+        cursor.execute(SQL_GET_PUBLICATIONS, (idUser))
+        self.__db.commit()
+        publications = cursor.fetchall()
+        cursor.close()
+        return publications
+    
+    def getTagsPublications(self, idPublication):
+        cursor = self.__db.cursor()
+        cursor.execute(SQL_GET_TAGS_PUBLICATIONS, (idPublication))
+        self.__db.commit()
+        tags = cursor.fetchall()
+        cursor.close()
+        return tags
     
     
 

@@ -22,7 +22,7 @@ def jwt_required(function):
         try:
             token_pure = token.replace("Bearer ","")
             decoded = jwt.decode(token_pure, os.getenv('CRYPTOGRAPHY_HASH'),algorithms=['HS256'])
-            current_user_id = decoded['id'][0]
+            current_user_id = decoded['id']
         except:
             return jsonify({"error": "O token é inválido"}), 403
         return function(current_user_id=current_user_id,*args, **kwargs)

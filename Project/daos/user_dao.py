@@ -15,7 +15,6 @@ class UserDao:
         data = cursor.fetchone()
         self.__db.commit()
         cursor.close()
-        print("data2: ", data)
         return data
 
     def findByNickname(self, nickname):

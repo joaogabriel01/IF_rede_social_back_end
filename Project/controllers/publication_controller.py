@@ -22,7 +22,7 @@ class PublicationController:
 
     def savePublication(self, publication):
         try:
-            idGroup = self.__groupController.checkName(publication.getGroupName())
+            idGroup = self.__groupController.findIdByName(publication.getGroupName())
             if(not(idGroup)):
                 return jsonify({"response":"Grupo não encontrado"}), 404
             publication.setIdGroup(idGroup)
@@ -47,3 +47,10 @@ class PublicationController:
             return jsonify({"response":"Sucesso ao dar like"}), 200
         except ValueError:
             return jsonify({"response":"Houve um problema interno"}), 400
+
+    def getPublications(self, user):
+        publications = self.__publicationDao.getPublications(user)
+        for publication in publications:
+            publication['date'] = publication['date'].strftime("%d/%m/%Y, %H:%M:%S")
+            publication['tags'] = self.__publicationDao.getTagsPublications(publication['id_publication'])
+        return jsonify(publications), 200

@@ -10,12 +10,15 @@ class GroupController:
         self.__db = db
         self.__groupDao = GroupDao(self.__db)
 
-    def checkName(self,name):
-        data = self.__groupDao.findByName(name)
+    def findIdByName(self,name):
+        try:
+            data = self.__groupDao.findIdByName(name)['id_group']
+        except:
+            return False
         return data
 
     def save(self, group):
-        idGroup = self.checkName(group.getName())
+        idGroup = self.findIdByName(group.getName())
         if(idGroup):
             return jsonify({"response": "Nome do grupo já está sendo utilizado"})
         self.__groupDao.save(group)  
@@ -23,7 +26,7 @@ class GroupController:
         return jsonify({"response":"Grupo criado com sucesso"}), 201
 
     def saveUser(self, userGroup):
-        idGroup = self.checkName(userGroup.getName())
+        idGroup = self.findIdByName(userGroup.getName())
         if(not idGroup):
             return jsonify({"response":"Groupo não encontrado"})
         userGroup.setId(idGroup)

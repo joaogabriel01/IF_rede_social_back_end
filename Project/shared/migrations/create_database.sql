@@ -12,7 +12,7 @@ CREATE TABLE `publications` (
   `id_publication` int PRIMARY KEY AUTO_INCREMENT,
   `id_user` int NOT NULL, 
   `id_group` int NOT NULL,
-  `description` varchar(255) NOT NULL,
+  `content` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT (now()),
   `updated_at` datetime NOT NULL DEFAULT (now()),
   `deleted_at` datetime
@@ -98,3 +98,10 @@ ALTER TABLE `publication_images` ADD FOREIGN KEY (`id_publication`) REFERENCES `
 ALTER TABLE `publication_images` ADD FOREIGN KEY (`id_image`) REFERENCES `images` (`id_image`);
 
 ALTER TABLE `sessions` ADD FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+
+alter view searchPublications as
+select p.id_publication,gn.id_group,gn.name as group_name,p.created_at as date, p.content,count(l.id_publication) as likes  from publications p 
+inner join groups_network gn on gn.id_group = p.id_group 
+inner join publications_tags pt on pt.id_publication = p.id_publication 
+left join likes l on l.id_publication = p.id_publication 
+group by p.id_publication,gn.name, p.created_at, p.content,l.id_publication 

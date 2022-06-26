@@ -51,3 +51,10 @@ class Routes:
                 return jsonify({"response":"Faltando dados de requisição"}), 400
             response = publication_controller.likePublication(likeDto)
             return response
+
+        @app.route('/publication', methods=['GET'])
+        @jwt_required
+        def getPublications(**kwargs):
+            idUser = kwargs['current_user_id']
+            response = publication_controller.getPublications(idUser)
+            return response

@@ -19,18 +19,21 @@ class UserController:
 
     def checkNickname(self, nickname):
         data = self.__userDao.findByNickname(nickname)
-        return data
+        if (data is None):
+            return False
+        return True
 
     def checkId(self, id):
         data = self.__userDao.findById(id)
-        print(data)
         if (data is None):
             return False
         return True
 
     def checkEmail(self, email):
         data = self.__userDao.findByEmail(email)
-        return data
+        if(data is None):
+            return False
+        return True
 
     def confirmPassword(self, password, passwordConfirm):
         if(password == passwordConfirm):
@@ -56,9 +59,9 @@ class UserController:
 
     def loginUser(self, user):
         try:
-            idUser = self.__userDao.findByNickname(user.getNickname())
+            idUser = self.__userDao.findByNickname(user.getNickname())['id_user']
             if(idUser is not None):
-                passwordHash = self.__userDao.findById(idUser)[3].encode('utf-8')
+                passwordHash = self.__userDao.findById(idUser)['password'].encode('utf-8')
 
                 payload = {
                     "id": idUser,
