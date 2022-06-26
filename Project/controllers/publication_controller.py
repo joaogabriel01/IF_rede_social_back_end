@@ -41,10 +41,21 @@ class PublicationController:
         except:
             return jsonify({"response":"Houve um problema interno"}), 400
 
+    def checkLike(self, idUser, idPublication):
+        like = self.__publicationDao.findLikeByUserAndPublication(idUser, idPublication)
+        if(like is None):
+            return False;
+        else:
+            return True;
+
     def likePublication(self, publication):
         try:
-            self.__publicationDao.likePubication(publication)
-            return jsonify({"response":"Sucesso ao dar like"}), 200
+            if(self.checkLike(publication.getIdUser(), publication.getIdPublication())):
+                self.__publicationDao.deleteLikeOfPublication(publication)
+                return jsonify({"response":"Sucesso em tirar like"}), 200
+            else:
+                self.__publicationDao.likePubication(publication)
+                return jsonify({"response":"Sucesso em dar like"}), 200
         except ValueError:
             return jsonify({"response":"Houve um problema interno"}), 400
 

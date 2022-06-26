@@ -8,6 +8,8 @@ SQL_CREATE_COMMENT = 'insert into comments(id_user,id_publication,content) value
 SQL_LIKE_PUBLICATION = 'insert into likes (id_user, id_publication) values (%s,%s)'
 SQL_GET_PUBLICATIONS = 'select s.id_publication,s.group_name,s.date,s.content,s.likes from search_publications s inner join groups_network gn on gn.id_group = s.id_group inner join users_groups ug on ug.id_group = gn.id_group where ug.id_user = %s'
 SQL_GET_TAGS_PUBLICATIONS = 'select t.text from tags t inner join publications_tags pt on pt.id_tag = t.id_tag where pt.id_publication = %s'
+SQL_GET_LIKE_BY_PUB_AND_USER = 'select id_user, id_publication from likes where id_user = %s and id_publication = %s'
+SQL_DELETE_LIKE = 'delete from likes where id_user = %s and id_publication = %s'
 
 class PublicationDao:
 
@@ -73,6 +75,21 @@ class PublicationDao:
     def likePubication(self, publication):
         cursor = self.__db.cursor()
         cursor.execute(SQL_LIKE_PUBLICATION, (publication.getIdUser(), publication.getIdPublication()))
+        self.__db.commit()
+        cursor.close()
+        return True
+
+    def findLikeByUserAndPublication(self, idUser, idPublication):
+        cursor = self.__db.cursor()
+        cursor.execute(SQL_GET_LIKE_BY_PUB_AND_USER, (idUser, idPublication))
+        like = cursor.fetchone()
+        self.__db.commit()
+        cursor.close()
+        return like
+
+    def deleteLikeOfPublication(self, publication):
+        cursor = self.__db.cursor()
+        cursor.execute(SQL_DELETE_LIKE, (publication.getIdUser(), publication.getIdPublication()))
         self.__db.commit()
         cursor.close()
         return True
