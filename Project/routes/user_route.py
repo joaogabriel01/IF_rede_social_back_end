@@ -38,6 +38,14 @@ class Routes:
             response = user_controller.loginUser(loginDto)
             return response
 
+        @app.route('/user', methods=['GET'])
+        @jwt_required
+        def getUser(**kwargs):
+            idUser = kwargs['current_user_id']
+            response = user_controller.getUserById(idUser)
+            return response
+
+
         @app.route('/user/sendEmailToResetPassword', methods=['POST'])
         def sendEmail():
             dataPost = request.json

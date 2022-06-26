@@ -23,17 +23,16 @@ class UserController:
             return False
         return True
 
-    def checkId(self, id):
-        data = self.__userDao.findById(id)
-        if (data is None):
-            return False
-        return True
-
     def checkEmail(self, email):
         data = self.__userDao.findByEmail(email)
         if(data is None):
             return False
         return True
+
+    def getUserById(self, id):
+        user = self.__userDao.findById(id)
+        return jsonify(user), 200
+
 
     def confirmPassword(self, password, passwordConfirm):
         if(password == passwordConfirm):
