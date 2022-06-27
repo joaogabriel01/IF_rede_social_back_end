@@ -15,8 +15,8 @@ class Routes:
             dataPost = request.json
             try:
                 idUser = kwargs['current_user_id']
-                createDto = GroupDto(name=dataPost['groupname'], idUser=idUser)
-            except ValueError:
+                createDto = GroupDto(name=dataPost['groupname'], description=dataPost['description'], idUser=idUser)
+            except:
                 return jsonify({"response":"Faltando dados de requisição"}), 400
             response = groupController.save(createDto)
             return response
