@@ -1,6 +1,7 @@
 class CreateDto:
     def __init__(self,groupName,text,images,tags,idUser=0,idGroup=0):
         self.__idUser = idUser
+        self.__idGroup = idGroup
         self.__groupName = groupName
         self.__text = text
         self.__images = images
