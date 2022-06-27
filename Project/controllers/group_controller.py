@@ -36,11 +36,11 @@ class GroupController:
     def getGroups(self, idUser):
         groups = self.__groupDao.getGroups()
         for group in groups:
-            group['amI'] = False
+            group['include'] = False
             usersOfGroup = self.__groupDao.getUsersInGroup(group['id_group'])
             for user in usersOfGroup:
                 if(idUser == user['id_user']):
-                    group['amI'] = True
+                    group['include'] = True
                     pass
         return jsonify(groups), 200
 
