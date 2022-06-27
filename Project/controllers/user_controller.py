@@ -58,15 +58,14 @@ class UserController:
 
     def loginUser(self, user):
         try:
-            idUser = self.__userDao.findByNickname(user.getNickname())['id_user']
-            if(idUser is not None):
-                passwordHash = self.__userDao.findById(idUser)['password'].encode('utf-8')
-
+            user_response = self.__userDao.findByNickname(user.getNickname())
+            if(user_response is not None):
+                idUser = user_response['id_user']
+                passwordHash = user_response['password'].encode('utf-8')
                 payload = {
                     "id": idUser,
                     "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
                 }
-
                 token = jwt.encode(payload, os.getenv('CRYPTOGRAPHY_HASH'))
                 if(bcrypt.checkpw(user.getPassword().encode('utf-8'),passwordHash)):
                     return jsonify({"response": "Usuário autenticado","token": token}), 202

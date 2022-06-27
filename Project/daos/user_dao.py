@@ -1,7 +1,7 @@
 SQL_CREATE_USER = 'insert into users(name, password, email) values (%s, %s, %s)'
 SQL_FIND_BY_ID = 'select id_user, name, email, password from users where id_user = %s'
-SQL_FIND_BY_EMAIL = 'select id_user from users where email = %s'
-SQL_FIND_BY_NICKNAME = 'select id_user from users where name = %s'
+SQL_FIND_BY_EMAIL = 'select id_user, name, email, password from users where email = %s'
+SQL_FIND_BY_NICKNAME = 'select id_user, name, email, password from users where name = %s'
 SQL_UPDATE_PASSWORD = 'update users set password = %s where id_user = %s'
 
 class UserDao:
