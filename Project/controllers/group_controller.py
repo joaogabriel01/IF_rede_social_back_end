@@ -37,7 +37,7 @@ class GroupController:
         groups = self.__groupDao.getGroups()
         for group in groups:
             group['include'] = False
-            usersOfGroup = self.__groupDao.getUsersInGroup(group['id_group'])
+            usersOfGroup = self.__groupDao.getUsersInGroup(group['id'])
             for user in usersOfGroup:
                 if(idUser == user['id_user']):
                     group['include'] = True
