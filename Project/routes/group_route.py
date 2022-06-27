@@ -32,3 +32,10 @@ class Routes:
                 return jsonify({"response":"Faltando dados de requisição"}), 400
             response = groupController.saveUser(createDto)
             return response
+
+        @app.route('/group', methods=['GET'])
+        @jwt_required
+        def getGroups(**kwargs):
+            idUser = kwargs['current_user_id']
+            response = groupController.getGroups(idUser)
+            return response

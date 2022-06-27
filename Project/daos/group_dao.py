@@ -1,6 +1,8 @@
 SQL_CREATE_GROUP = 'insert into groups_network(name, description) values (%s, %s)'
 SQL_FIND_ID_BY_NAME = 'select id_group from groups_network where name like %s'
 SQL_INSERT_USER = 'insert into users_groups (id_user, id_group) values (%s,%s)'
+SQL_GET_GROUPS = 'select id_group, name, description from groups_network';
+SQL_GET_USERS_IN_GROUP = 'select id_user from users_groups where id_group = %s'
 
 class GroupDao:
 
@@ -29,3 +31,19 @@ class GroupDao:
         self.__db.commit()
         cursor.close()
         return 1
+
+    def getGroups(self):        
+        cursor = self.__db.cursor()
+        cursor.execute(SQL_GET_GROUPS, )
+        groups = cursor.fetchall()
+        self.__db.commit()
+        cursor.close()
+        return groups
+
+    def getUsersInGroup(self, idGroup):
+        cursor = self.__db.cursor()
+        cursor.execute(SQL_GET_USERS_IN_GROUP, (idGroup))
+        users = cursor.fetchall()
+        self.__db.commit()
+        cursor.close()
+        return users

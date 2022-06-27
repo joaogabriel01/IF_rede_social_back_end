@@ -33,4 +33,15 @@ class GroupController:
         self.__groupDao.saveUser(userGroup)
         return jsonify({"response":"Usuário inserido com sucesso"}), 201
 
+    def getGroups(self, idUser):
+        groups = self.__groupDao.getGroups()
+        for group in groups:
+            group['amI'] = False
+            usersOfGroup = self.__groupDao.getUsersInGroup(group['id_group'])
+            for user in usersOfGroup:
+                if(idUser == user['id_user']):
+                    group['amI'] = True
+                    pass
+        return jsonify(groups), 200
+
 
