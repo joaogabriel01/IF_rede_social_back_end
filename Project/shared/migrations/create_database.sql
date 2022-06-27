@@ -1,3 +1,5 @@
+USE network;
+
 CREATE TABLE `users` (
   `id_user` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -99,6 +101,15 @@ ALTER TABLE `publication_images` ADD FOREIGN KEY (`id_publication`) REFERENCES `
 ALTER TABLE `publication_images` ADD FOREIGN KEY (`id_image`) REFERENCES `images` (`id_image`);
 
 ALTER TABLE `sessions` ADD FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+
+ALTER TABLE `users_groups` ADD FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+
+ALTER TABLE `users_groups` ADD FOREIGN KEY (`id_group`) REFERENCES `groups_network` (`id_group`);
+
+ALTER TABLE `publications_tags` ADD FOREIGN KEY (`id_publication`) REFERENCES `publications` (`id_publication`);
+
+ALTER TABLE `publications_tags` ADD FOREIGN KEY (`id_tag`) REFERENCES `tags` (`id_tag`);
+
 
 
 create view search_publications as
