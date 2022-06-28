@@ -59,9 +59,10 @@ class PublicationController:
         except ValueError:
             return jsonify({"response":"Houve um problema interno"}), 400
 
-    def getPublications(self, user):
-        publications = self.__publicationDao.getPublications(user)
+    def getPublications(self, idUser):
+        publications = self.__publicationDao.getPublications(idUser)
         for publication in publications:
+            publication['liked'] = self.checkLike(idUser, publication['id_publication'])
             publication['date'] = publication['date'].strftime("%d/%m/%Y, %H:%M:%S")
             publication['tags'] = self.__publicationDao.getTagsPublications(publication['id_publication'])
         return jsonify(publications), 200

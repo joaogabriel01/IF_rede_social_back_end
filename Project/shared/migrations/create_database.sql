@@ -122,9 +122,9 @@ select
     (select count(id_publication) from likes where `p`.`id_publication`=likes.id_publication) as 'likes'
 from
     (((`network`.`publications` `p`
-join `network`.`groups_network` `gn` on
+left join `network`.`groups_network` `gn` on
     (`gn`.`id_group` = `p`.`id_group`))
-join `network`.`publications_tags` `pt` on
+left join `network`.`publications_tags` `pt` on
     (`pt`.`id_publication` = `p`.`id_publication`)))
 group by
     `p`.`id_publication`,
